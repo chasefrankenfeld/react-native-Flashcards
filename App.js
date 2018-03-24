@@ -8,6 +8,7 @@ import {
 // import { createStore, applyMiddleware } from 'redux';
 // import { Provider } from 'react-redux';
 // import reducer from "./reducers";
+// import thunk from "redux-thunk";
 import { Constants } from "expo";
 import { TabNavigator } from "react-navigation";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -67,7 +68,7 @@ export default class App extends Component {
 
     return (
       <View style={{flex: 1}} >
-        <CustomStatusBar backgroundColor={"#000"}/>
+        <CustomStatusBar backgroundColor={"#000"} />
         <Tabs />
       </View>
     );
