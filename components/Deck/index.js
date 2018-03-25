@@ -40,14 +40,14 @@ export default class Deck extends Component {
                     title="Add Card"
                     backgroundColor="#000"
                     containerViewStyle={ styles.button }
-                    icon={{name: 'title', type: 'MaterialIcons', buttonStyle: styles.button }}
+                    icon={{name: 'plus', type: 'octicon', buttonStyle: styles.button }}
                     onPress={ this.handleAddCard }
                 />
                 <Button
                     title="Start Quiz"
                     backgroundColor="#000"
                     containerViewStyle={ styles.button }
-                    icon={{name: 'title', type: 'MaterialIcons', buttonStyle: styles.button }}
+                    icon={{name: 'play', type: 'foundation', buttonStyle: styles.button }}
                     onPress={ this.handleStartQuiz }
                 />
             </View>
