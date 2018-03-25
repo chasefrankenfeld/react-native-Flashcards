@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         alignItems: "stretch",
     },
     FormValidationMessageStyle: {
-        paddingBottom: Platform.OS === 'ios' ? 6 : 12,
+        paddingBottom: Platform.OS === 'ios' ? 5 : 12,
     }
 
 })

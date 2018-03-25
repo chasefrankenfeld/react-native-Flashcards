@@ -14,6 +14,7 @@ import { TabNavigator } from "react-navigation";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Decks from "./components/Decks";
 import NewDeck from "./components/NewDeck";
+import Deck from "./components/Deck";
 
 function CustomStatusBar({ backgroundColor, ...props }) {
   return (
@@ -41,6 +42,13 @@ const Tabs = TabNavigator({
     navigationOptions: {
       tabBarLabel: "New Deck",
       tabBarIcon: ({ tintColor }) => <FontAwesome name="plus-square" size={30} color={tintColor} />
+    },
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      tabBarLabel: "Deck",
+      tabBarIcon: ({ tintColor }) => <FontAwesome name="plus-square" size={30} color={tintColor} />
     }
   }
 },{
@@ -59,7 +67,8 @@ const Tabs = TabNavigator({
       shadowOpacity: 0,
       elevation: 0,
     }
-  }
+  },
+  swipeEnabled: true,
 });
 
 export default class App extends Component {
