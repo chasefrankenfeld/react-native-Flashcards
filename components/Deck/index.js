@@ -18,11 +18,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default class Deck extends Component {
 
   handleAddCard = () => {
-    alert("You will add a card")
+    this.props.navigation.navigate("AddCard")
   }
 
   handleStartQuiz = () => {
-    alert("You are starting the quiz")
+    this.props.navigation.navigate("Quiz")
   }
 
   render() {

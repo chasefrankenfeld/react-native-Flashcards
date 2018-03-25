@@ -10,11 +10,13 @@ import {
 // import reducer from "./reducers";
 // import thunk from "redux-thunk";
 import { Constants } from "expo";
-import { TabNavigator } from "react-navigation";
+import { TabNavigator, StackNavigator } from "react-navigation";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Decks from "./components/Decks";
 import NewDeck from "./components/NewDeck";
 import Deck from "./components/Deck";
+import AddCard from "./components/AddCard";
+import Quiz from "./components/Quiz";
 
 function CustomStatusBar({ backgroundColor, ...props }) {
   return (
@@ -71,6 +73,18 @@ const Tabs = TabNavigator({
   swipeEnabled: true,
 });
 
+const DeckNavigator = StackNavigator({
+  home: {
+    screen: Tabs,
+  },
+  AddCard: {
+    screen: AddCard,
+  },
+  Quiz: {
+    screen: Quiz,
+  },
+})
+
 export default class App extends Component {
 
   render() {
@@ -78,7 +92,7 @@ export default class App extends Component {
     return (
       <View style={{flex: 1}} >
         <CustomStatusBar backgroundColor={"#000"} />
-        <Tabs />
+        <DeckNavigator />
       </View>
     );
   }

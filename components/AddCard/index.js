@@ -15,15 +15,23 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 
-export default class Decks extends Component {
+export default class AddCard extends Component {
 
   state = {
-    deckTitle: "",
-    errorMessage: false,
+    question: "",
+    questionErrorMessage: false,
+    answer: "",
+    answerErrorMessage: false,
+  }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add card'
+    }
   }
 
   handleSumbit = () => {
-    alert("Hi")
+    alert("You have added a new card to the Deck")
   }
 
   render() {
@@ -33,15 +41,28 @@ export default class Decks extends Component {
           style={styles.container}
           behavior="padding"
         >
-          <Card containerStyle={styles.card} title="Try think of a creative name for your new deck" >
-            <FormLabel>Deck Name</FormLabel>
+          <Card
+            // style={styles.card}
+            containerStyle={ styles.card }
+            title="Add a new question and answer to your deck"
+          >
+            <FormLabel>Question</FormLabel>
             <FormInput
               shake={true}
             />
             <FormValidationMessage
               containerStyle={styles.FormValidationMessageStyle}
             >
-              A deck "title" is required
+              A question is required!
+            </FormValidationMessage>
+            <FormLabel>Answer</FormLabel>
+            <FormInput
+              shake={true}
+            />
+            <FormValidationMessage
+              containerStyle={styles.FormValidationMessageStyle}
+            >
+              An is required!
             </FormValidationMessage>
             <Button
               title="Create your deck"

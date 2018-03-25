@@ -5,11 +5,8 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-around"
     },
-    informationContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 60,
+    card: {
+        borderRadius: 20,
     },
     heading: {
         fontSize: 30,
@@ -18,11 +15,14 @@ export const styles = StyleSheet.create({
         marginLeft: 3,
         marginRight: 3,
     },
-    numberOfCards: {
+    questionAnswer: {
+        textAlign: "center",
         fontSize: 25,
         marginTop: 10,
         marginLeft: 3,
         marginRight: 3,
+        fontWeight: 'bold',
+        color: '#ff0000'
     },
     buttonContainer: {
         flex: 1,
