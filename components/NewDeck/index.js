@@ -13,6 +13,7 @@ import {
   Button,
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
+import { sumbitDeckTitle } from "../../utils/api";
 
 
 export default class Decks extends Component {
@@ -22,8 +23,28 @@ export default class Decks extends Component {
     errorMessage: false,
   }
 
+  handleDeckTitle = (text) => {
+    this.setState({
+      deckTitle: text
+    })
+  }
+
   handleSumbit = () => {
-    alert("Hi")
+    if ( this.state.deckTitle ) {
+
+      const { deckTitle } = this.state
+      console.log(deckTitle, "has been submitted")
+
+      sumbitDeckTitle({ deckTitle })
+
+      this.setState({
+        deckTitle: ""
+      })
+      // alert("Your deck title has been submitted!")
+
+      this.props.navigation.navigate("Decks")
+
+    }
   }
 
   render() {
@@ -37,6 +58,8 @@ export default class Decks extends Component {
             <FormLabel>Deck Name</FormLabel>
             <FormInput
               shake={true}
+              onChangeText={this.handleDeckTitle}
+              value={this.state.deckTitle}
             />
             <FormValidationMessage
               containerStyle={styles.FormValidationMessageStyle}
