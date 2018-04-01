@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   Text,
   Platform,
+  Keyboard
 } from "react-native";
 import { styles } from "./styles";
 import {
@@ -33,16 +34,17 @@ export default class Decks extends Component {
     if ( this.state.deckTitle ) {
 
       const { deckTitle } = this.state
-      console.log(deckTitle, "has been submitted")
 
       sumbitDeckTitle({ deckTitle })
+
+      Keyboard.dismiss()
 
       this.setState({
         deckTitle: ""
       })
-      // alert("Your deck title has been submitted!")
 
       this.props.navigation.navigate("Decks")
+
 
     }
   }
