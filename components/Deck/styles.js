@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 3,
         marginRight: 3,
+        textAlign: "center",
     },
     buttonContainer: {
         flex: 1,

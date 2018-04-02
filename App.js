@@ -46,13 +46,6 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <FontAwesome name="plus-square" size={30} color={tintColor} />
     },
   },
-  Deck: {
-    screen: Deck,
-    navigationOptions: {
-      tabBarLabel: "Deck",
-      tabBarIcon: ({ tintColor }) => <FontAwesome name="plus-square" size={30} color={tintColor} />
-    }
-  }
 },{
   navigationOptions: {
     header: null,
@@ -76,6 +69,9 @@ const Tabs = TabNavigator({
 const DeckNavigator = StackNavigator({
   home: {
     screen: Tabs,
+  },
+  Deck: {
+    screen: Deck,
   },
   AddCard: {
     screen: AddCard,

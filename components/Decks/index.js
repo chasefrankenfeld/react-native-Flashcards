@@ -11,19 +11,39 @@ export default class Decks extends Component {
     deckKeys: null,
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Deck List'
+    }
+  }
+
   componentDidMount() {
     getDecks().then((decks) => {
-      const keys = Object.keys(decks)
-      this.setState(() => ({
-        decks: decks,
-        deckKeys: keys
-      }))
+      if (decks !== null) {
+        const keys = Object.keys(decks)
+        this.setState(() => ({
+          decks: decks,
+          deckKeys: keys
+        }))
+      }
     })
   }
 
-  handleDeckSelection = (key) => {
+  componentDidUpdate(prevProps, prevState) {
+    getDecks().then((decks) => {
+      if (decks !== this.state.decks) {
+        const keys = Object.keys(decks)
+        this.setState(() => ({
+          decks: decks,
+          deckKeys: keys
+        }))
+      }
+    })
+  }
+
+  handleDeckSelection = (id) => {
     this.props.navigation.navigate("Deck", {
-      key: key
+      deckKey: id
     })
   }
 
@@ -31,7 +51,7 @@ export default class Decks extends Component {
     const { decks, deckKeys } = this.state
 
     return (
-        <View style={styles.container} >
+        <View style={styles.container} ref="myRef">
           { (deckKeys !== null) && (decks !== null)
               && <ScrollView>
                 { deckKeys.map((key) =>
@@ -49,6 +69,17 @@ export default class Decks extends Component {
                   </View>
                 )}
               </ScrollView>
+          }
+
+          { (decks === null) &&
+            <View>
+              <Card
+                containerStyle={ styles.card }
+                title="You have no decks"
+              >
+                  <Text style={styles.numberOfCards} >Click "New Deck" start your deck</Text>
+              </Card>
+            </View>
           }
         </View>
     );

@@ -14,6 +14,7 @@ import {
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
 import { adaddCardToDeck } from "../../utils/api";
+import { NavigationActions } from "react-navigation";
 
 
 export default class AddCard extends Component {
@@ -21,6 +22,7 @@ export default class AddCard extends Component {
   state = {
     question: "",
     answer: "",
+    deckKey: null,
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -47,7 +49,7 @@ export default class AddCard extends Component {
 
     if ( question && answer ) {
 
-      adaddCardToDeck(1522644520910, question, answer )
+      adaddCardToDeck(this.props.navigation.state.params.deckKey, question, answer )
 
       Keyboard.dismiss()
 
@@ -56,7 +58,9 @@ export default class AddCard extends Component {
         answer: ""
       })
 
-      this.props.navigation.navigate("Decks")
+      this.props.navigation.dispatch(NavigationActions.back({
+        deckKey: this.props.navigation.state.params.deckKey
+    }))
     }
   }
 

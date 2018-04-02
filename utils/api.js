@@ -13,11 +13,11 @@ const DECK_STORAGE_KEY = 'DeckStorageKey:mobile_flashcards1';
 
 // getDeck: take in a single id argument and return the deck associated with that id.
 
-export const getDeck = ({ id }) => {
-    AsyncStorage.getItem(DECK_STORAGE_KEY, (err, result) => {
-        if (result) {
-            return result[id]
-        }
+export const getDeck = ( id ) => {
+    return AsyncStorage.getItem(DECK_STORAGE_KEY).then((result) => {
+        const decks = JSON.parse(result)
+        const deck = decks[id]
+        return deck
     })
 }
 
@@ -32,11 +32,11 @@ export const sumbitDeckTitle = ({ deckTitle }) => {
         questions: [],
     }
 
-    AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
+    return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
         [id]: deckObj
     }), () => {
-        AsyncStorage.getItem(DECK_STORAGE_KEY, (err, result) => {
-            console.log(result)
+        return AsyncStorage.getItem(DECK_STORAGE_KEY, (err, result) => {
+            // console.log(result)
         })
     })
 }
@@ -44,18 +44,17 @@ export const sumbitDeckTitle = ({ deckTitle }) => {
 // addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
 
 export const adaddCardToDeck = ( id, question, answer ) => {
-    AsyncStorage.getItem(DECK_STORAGE_KEY).then((result) => {
-        console.log(result)
+    return AsyncStorage.getItem(DECK_STORAGE_KEY).then((result) => {
+        // console.log(result)
         const data = JSON.parse(result)
-        console.log(data)
         let deck = data[id]
         questionAnswerObject = {
             question: question,
             answer: answer
         }
-        deck["questions"].push(questionAnswerObject)
-        AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify({
-            [id]: deck
-        }))
+        // deck["questions"].push(questionAnswerObject)
+        data[id].questions.push(questionAnswerObject)
+        // console.log(data)
+        AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(data))
     })
 }
