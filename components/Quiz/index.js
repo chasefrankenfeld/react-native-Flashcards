@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { styles } from "./styles";
 import {
@@ -13,14 +14,37 @@ import {
   Button,
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
+import { getDeck } from "../../utils/api";
 
 
 export default class Quiz extends Component {
+
+  state = {
+    deck: null,
+    showingQuestion: true,
+    questionsAndAnswers: [],
+    correctAnswers: 0,
+    wrongAnswers: 0,
+  }
+
+  componentDidMount() {
+    getDeck(this.props.navigation.state.params.deckKey).then((deck) => {
+      const questionsAndAnswers = deck.questions
+      this.setState(() => ({
+        deck: deck,
+        questionsAndAnswers: questionsAndAnswers
+      }))
+    })
+  }
 
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Quiz Time!"
     }
+  }
+
+  viewAnswer = () => {
+    console.log("hello")
   }
 
   handleCorrectAnswer = () => {
@@ -33,33 +57,42 @@ export default class Quiz extends Component {
 
   render() {
 
+    const { deck, showingQuestion, questionsAndAnswers } = this.state
+
     return (
-        <View
-          style={styles.container}
-        >
-            <Card
-              containerStyle={ styles.card }
-              title="Question 1 of 1"
-            >
-                <Text style={styles.heading} >Placeholder question</Text>
-                <Text style={styles.questionAnswer} >View answer</Text>
-            </Card>
-            <View style={styles.buttonContainer} >
-                <Button
-                    title="Correct"
-                    backgroundColor="#000"
-                    containerViewStyle={ styles.button }
-                    icon={{name: 'ios-thumbs-up', type: 'ionicon', buttonStyle: styles.button }}
-                    onPress={ this.handleCorrectAnswer }
-                />
-                <Button
-                    title="Incorrect"
-                    backgroundColor="#000"
-                    containerViewStyle={ styles.button }
-                    icon={{name: 'ios-thumbs-down', type: 'ionicon', buttonStyle: styles.button }}
-                    onPress={ this.handleIncorrectAnswer }
-                />
+        <View style={{ flex: 1 }}>
+          { (deck !== null ) && (questionsAndAnswers.length > 0) &&
+            <View style={styles.container} >
+              <Text style={{ textAlign: "center" }}>{questionsAndAnswers[0].question}</Text>
+              {/* <Card
+                containerStyle={ styles.card }
+                title={"Question " + "x" + " of " + questionsAndAnswers.length}
+              >
+                  <Text style={styles.heading} >{questionsAndAnswers[0].question}</Text>
+                <TouchableOpacity
+                  onPress={this.viewAnswer}
+                >
+                  <Text style={styles.questionAnswer} >View answer</Text>
+                </TouchableOpacity>
+              </Card>
+              <View style={styles.buttonContainer} >
+                  <Button
+                      title="Correct"
+                      backgroundColor="#000"
+                      containerViewStyle={ styles.button }
+                      icon={{name: 'ios-thumbs-up', type: 'ionicon', buttonStyle: styles.button }}
+                      onPress={ this.handleCorrectAnswer }
+                  />
+                  <Button
+                      title="Incorrect"
+                      backgroundColor="#000"
+                      containerViewStyle={ styles.button }
+                      icon={{name: 'ios-thumbs-down', type: 'ionicon', buttonStyle: styles.button }}
+                      onPress={ this.handleIncorrectAnswer }
+                  />
+              </View> */}
             </View>
+          }
         </View>
     );
   }
