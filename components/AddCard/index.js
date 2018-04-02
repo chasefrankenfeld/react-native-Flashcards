@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   KeyboardAvoidingView,
   Text,
-  Platform,
+  Keyboard,
 } from "react-native";
 import { styles } from "./styles";
 import {
@@ -13,15 +13,14 @@ import {
   Button,
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
+import { adaddCardToDeck } from "../../utils/api";
 
 
 export default class AddCard extends Component {
 
   state = {
     question: "",
-    questionErrorMessage: false,
     answer: "",
-    answerErrorMessage: false,
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -30,8 +29,35 @@ export default class AddCard extends Component {
     }
   }
 
+
+  handleQuestion = (text) => {
+    this.setState({
+      question: text
+    })
+  }
+
+  handleAnswer= (text) => {
+    this.setState({
+      answer: text
+    })
+  }
+
   handleSumbit = () => {
-    alert("You have added a new card to the Deck")
+    const { question, answer } = this.state
+
+    if ( question && answer ) {
+
+      adaddCardToDeck(1522644520910, question, answer )
+
+      Keyboard.dismiss()
+
+      this.setState({
+        question: "",
+        answer: ""
+      })
+
+      this.props.navigation.navigate("Decks")
+    }
   }
 
   render() {
@@ -49,6 +75,8 @@ export default class AddCard extends Component {
             <FormLabel>Question</FormLabel>
             <FormInput
               shake={true}
+              onChangeText={this.handleQuestion}
+              value={this.state.question}
             />
             <FormValidationMessage
               containerStyle={styles.FormValidationMessageStyle}
@@ -58,6 +86,8 @@ export default class AddCard extends Component {
             <FormLabel>Answer</FormLabel>
             <FormInput
               shake={true}
+              onChangeText={this.handleAnswer}
+              value={this.state.answer}
             />
             <FormValidationMessage
               containerStyle={styles.FormValidationMessageStyle}

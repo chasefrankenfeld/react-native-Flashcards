@@ -1,52 +1,54 @@
 import React, { Component } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import { Card } from "react-native-elements";
 import { styles } from "./styles";
 import { getDecks } from "../../utils/api";
-import { all } from "any-promise";
-
-const DeckCard = ({ name }) => (
-  <View key={name}>
-    <Card
-      containerStyle={ styles.card }
-      title={name}
-    >
-        <Text style={styles.numberOfCards} >3 Cards</Text>
-    </Card>
-  </View>
-)
 
 export default class Decks extends Component {
 
   state = {
     decks: null,
+    deckKeys: null,
   }
 
   componentDidMount() {
-    getDecks().then((result) => {
-      console.log(result)
-      const myKeys = Object.keys(result);
-      console.log(myKeys)
-      this.setState({
-        decks: result
-      })
+    getDecks().then((decks) => {
+      const keys = Object.keys(decks)
+      this.setState(() => ({
+        decks: decks,
+        deckKeys: keys
+      }))
     })
   }
 
-  renderDeck = ({ deck }) => (
-    <DeckCard name={deck} {...deck} />
-  )
+  handleDeckSelection = (key) => {
+    this.props.navigation.navigate("Deck", {
+      key: key
+    })
+  }
 
   render() {
-    const { decks } = this.state
+    const { decks, deckKeys } = this.state
 
     return (
         <View style={styles.container} >
-          { decks && <FlatList
-              data={Object.keys(decks)}
-              renderItem={this.renderDeck}
-              keyExtractor={(deck) => deck}
-            />
+          { (deckKeys !== null) && (decks !== null)
+              && <ScrollView>
+                { deckKeys.map((key) =>
+                  <View key={key}>
+                    <Card
+                      containerStyle={ styles.card }
+                      title={decks[key].title}
+                    >
+                      <TouchableOpacity
+                        onPress={() => this.handleDeckSelection(key)}
+                      >
+                        <Text style={styles.numberOfCards} >{decks[key].questions.length} Cards</Text>
+                      </TouchableOpacity>
+                    </Card>
+                  </View>
+                )}
+              </ScrollView>
           }
         </View>
     );

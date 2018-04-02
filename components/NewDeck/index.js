@@ -21,7 +21,6 @@ export default class Decks extends Component {
 
   state = {
     deckTitle: "",
-    errorMessage: false,
   }
 
   handleDeckTitle = (text) => {
