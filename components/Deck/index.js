@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Platform,
+  Animated,
 } from "react-native";
 import { styles } from "./styles";
 import {
@@ -19,6 +20,7 @@ export default class Deck extends Component {
 
   state = {
     deck: false,
+    opacity: new Animated.Value(0)
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -28,6 +30,11 @@ export default class Deck extends Component {
   }
 
   componentDidMount() {
+    const { opacity } = this.state
+
+    Animated.timing(opacity, { toValue: 1, duration: 1000 })
+      .start()
+
     getDeck(this.props.navigation.state.params.deckKey).then((deck) => {
       this.setState(() => ({
         deck: deck
@@ -59,10 +66,10 @@ export default class Deck extends Component {
 
   render() {
 
-    const { deck } = this.state
+    const { deck, opacity } = this.state
 
     return (
-      <View  style={{ flex: 1 }}>
+      <Animated.View  style={{ flex: 1, opacity }}>
         {(deck && (deck.questions.length !== 0) )
         ? <View style={styles.container}>
           <View style={styles.informationContainer}>
@@ -87,10 +94,10 @@ export default class Deck extends Component {
           </View>
         </View>
         : <View style={styles.container}>
-        <View style={styles.informationContainer}>
-            <Text style={styles.heading} >"{deck.title}" has no cards!</Text>
-            <Text style={styles.numberOfCards} >Please click "Add Card" to add cards to your deck</Text>
-        </View>
+          <View style={styles.informationContainer}>
+              <Text style={styles.heading} >"{deck.title}" has no cards!</Text>
+              <Text style={styles.numberOfCards} >Please click "Add Card" to add cards to your deck</Text>
+          </View>
         <View style={styles.buttonContainer} >
             <Button
                 title="Add Card"
@@ -102,7 +109,7 @@ export default class Deck extends Component {
         </View>
       </View>
         }
-      </View>
+      </Animated.View>
     );
   }
 };

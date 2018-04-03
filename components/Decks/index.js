@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { Card } from "react-native-elements";
 import { styles } from "./styles";
 import { getDecks } from "../../utils/api";
@@ -48,7 +54,7 @@ export default class Decks extends Component {
   }
 
   render() {
-    const { decks, deckKeys } = this.state
+    const { decks, deckKeys, opacity } = this.state
 
     return (
         <View style={styles.container} ref="myRef">
