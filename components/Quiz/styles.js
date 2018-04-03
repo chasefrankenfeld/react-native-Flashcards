@@ -31,5 +31,49 @@ export const styles = StyleSheet.create({
     button: {
         alignItems: "stretch",
         margin: 5,
+    },
+    quizResultContainer: {
+        flex: 1,
+        alignItems: "center",
+        marginTop: 60
+    },
+    quizHeading: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        textAlign: "center",
+        marginLeft: 3,
+        marginRight: 3,
+        marginBottom: 40,
+    },
+    correctQuizResults: {
+        fontSize: 30,
+        textAlign: "center",
+        marginLeft: 3,
+        marginRight: 3,
+        color: '#00FF00',
+    },
+    incorrectQuizResults: {
+        fontSize: 30,
+        textAlign: "center",
+        marginLeft: 3,
+        marginRight: 3,
+        color: '#ff0000',
+    },
+    quizResultPercentage: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: "center",
+        marginLeft: 3,
+        marginRight: 3,
+        marginBottom: 40,
+    },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: "center",
+        marginTop: 40,
+    },
+    button: {
+        alignItems: "stretch",
+        margin: 5,
     }
 })

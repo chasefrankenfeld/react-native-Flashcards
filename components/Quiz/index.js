@@ -15,7 +15,7 @@ import {
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
 import { getDeck } from "../../utils/api";
-
+import { NavigationActions } from "react-navigation";
 
 export default class Quiz extends Component {
 
@@ -24,7 +24,9 @@ export default class Quiz extends Component {
     showingQuestion: true,
     questionsAndAnswers: [],
     correctAnswers: 0,
-    wrongAnswers: 0,
+    incorrectAnswers: 0,
+    questionsAsked: 1,
+    questionsAndAnswerIndex: 0,
   }
 
   componentDidMount() {
@@ -44,37 +46,94 @@ export default class Quiz extends Component {
   }
 
   viewAnswer = () => {
-    console.log("hello")
+    this.state.showingQuestion
+      ? this.setState({
+        showingQuestion: false,
+      })
+      : this.setState({
+        showingQuestion: true,
+      })
   }
 
   handleCorrectAnswer = () => {
-    alert("Nice work 💪 That is the correct answer!")
+    const correctAnswers = this.state.correctAnswers + 1
+    const questionsAsked = this.state.questionsAsked + 1
+    const questionsAndAnswerIndex = this.state.questionsAndAnswerIndex + 1
+    this.setState({
+      correctAnswers: correctAnswers,
+      questionsAsked: questionsAsked,
+      questionsAndAnswerIndex: questionsAndAnswerIndex,
+    })
   }
 
   handleIncorrectAnswer = () => {
-    alert("Derp! Better luck next time...")
+    const incorrectAnswers = this.state.incorrectAnswers + 1
+    const questionsAsked = this.state.questionsAsked + 1
+    const questionsAndAnswerIndex = this.state.questionsAndAnswerIndex + 1
+    this.setState({
+      incorrectAnswers: incorrectAnswers,
+      questionsAsked: questionsAsked,
+      questionsAndAnswerIndex: questionsAndAnswerIndex,
+    })
+  }
+
+  handleStartQuiz = () => {
+    this.setState({
+      correctAnswers: 0,
+      incorrectAnswers: 0,
+      questionsAsked: 1,
+      questionsAndAnswerIndex: 0,
+    })
+  }
+
+  handleGoBackToDeck = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      deckKey: this.props.navigation.state.params.deckKey
+    }))
   }
 
   render() {
 
-    const { deck, showingQuestion, questionsAndAnswers } = this.state
+    const {
+      deck,
+      showingQuestion,
+      questionsAndAnswers,
+      questionsAndAnswerIndex,
+      questionsAsked,
+      correctAnswers,
+      incorrectAnswers,
+    } = this.state
 
     return (
         <View style={{ flex: 1 }}>
-          { (deck !== null ) && (questionsAndAnswers.length > 0) &&
+          { (deck !== null ) && (questionsAsked <= (questionsAndAnswers.length)) &&
             <View style={styles.container} >
-              <Text style={{ textAlign: "center" }}>{questionsAndAnswers[0].question}</Text>
-              {/* <Card
-                containerStyle={ styles.card }
-                title={"Question " + "x" + " of " + questionsAndAnswers.length}
-              >
-                  <Text style={styles.heading} >{questionsAndAnswers[0].question}</Text>
-                <TouchableOpacity
-                  onPress={this.viewAnswer}
+              {showingQuestion &&
+                <Card
+                  containerStyle={ styles.card }
+                  title={"Question " + questionsAsked + " of " + questionsAndAnswers.length}
                 >
-                  <Text style={styles.questionAnswer} >View answer</Text>
-                </TouchableOpacity>
-              </Card>
+                  <Text style={styles.heading} >{questionsAndAnswers[questionsAndAnswerIndex].question}</Text>
+                  <TouchableOpacity
+                    onPress={this.viewAnswer}
+                  >
+                    { showingQuestion && <Text style={styles.questionAnswer} >View answer</Text>}
+                  </TouchableOpacity>
+                </Card>
+              }
+              { !showingQuestion &&
+                <Card
+                  containerStyle={ styles.card }
+                  title={"Answer " + questionsAsked + " of " + questionsAndAnswers.length}
+                >
+                  <Text style={styles.heading} >{questionsAndAnswers[questionsAndAnswerIndex].answer}</Text>
+                  <TouchableOpacity
+                    onPress={this.viewAnswer}
+                  >
+                    { !showingQuestion && <Text style={styles.questionAnswer} >View question</Text>}
+                  </TouchableOpacity>
+                </Card>
+              }
               <View style={styles.buttonContainer} >
                   <Button
                       title="Correct"
@@ -90,7 +149,32 @@ export default class Quiz extends Component {
                       icon={{name: 'ios-thumbs-down', type: 'ionicon', buttonStyle: styles.button }}
                       onPress={ this.handleIncorrectAnswer }
                   />
-              </View> */}
+              </View>
+            </View>
+          }
+          { (deck !== null ) && (questionsAsked > (questionsAndAnswers.length)) &&
+            <View style={{ flex: 1 }}>
+              <View style={styles.quizResultContainer}>
+                    <Text style={styles.quizHeading} >You have finished {deck.title}</Text>
+                    <Text style={styles.quizResultPercentage} >{Math.floor((correctAnswers / questionsAndAnswers.length) * 100)} %</Text>
+                    <Text style={styles.correctQuizResults} >{correctAnswers} correct</Text>
+                    <Text style={styles.incorrectQuizResults} >{incorrectAnswers} incorrect</Text>
+                </View>
+                <View style={styles.buttonContainer} >
+                  <Button
+                    title="Start Quiz Again"
+                    backgroundColor="#000"
+                    containerViewStyle={ styles.button }
+                    icon={{name: 'play', type: 'foundation', buttonStyle: styles.button }}
+                    onPress={ this.handleStartQuiz }
+                  />
+                  <Button
+                    title="Go back to the deck"
+                    backgroundColor="#000"
+                    containerViewStyle={ styles.button }
+                    onPress={ this.handleGoBackToDeck }
+                  />
+              </View>
             </View>
           }
         </View>

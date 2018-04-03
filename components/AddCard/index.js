@@ -60,7 +60,7 @@ export default class AddCard extends Component {
 
       this.props.navigation.dispatch(NavigationActions.back({
         deckKey: this.props.navigation.state.params.deckKey
-    }))
+      }))
     }
   }
 
