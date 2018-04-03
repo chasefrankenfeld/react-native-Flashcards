@@ -17,6 +17,7 @@ import NewDeck from "./components/NewDeck";
 import Deck from "./components/Deck";
 import AddCard from "./components/AddCard";
 import Quiz from "./components/Quiz";
+import { setLocalNotification } from "./utils/local_notifications";
 
 function CustomStatusBar({ backgroundColor, ...props }) {
   return (
@@ -82,6 +83,10 @@ const DeckNavigator = StackNavigator({
 })
 
 export default class App extends Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
 
   render() {
 

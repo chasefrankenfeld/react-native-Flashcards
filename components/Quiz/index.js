@@ -16,6 +16,10 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { getDeck } from "../../utils/api";
 import { NavigationActions } from "react-navigation";
+import {
+  clearLocalNotifications,
+  setLocalNotification
+} from "../../utils/local_notifications";
 
 export default class Quiz extends Component {
 
@@ -30,6 +34,7 @@ export default class Quiz extends Component {
   }
 
   componentDidMount() {
+
     getDeck(this.props.navigation.state.params.deckKey).then((deck) => {
       const questionsAndAnswers = deck.questions
       this.setState(() => ({
@@ -37,6 +42,11 @@ export default class Quiz extends Component {
         questionsAndAnswers: questionsAndAnswers
       }))
     })
+
+    clearLocalNotifications().then(
+      setLocalNotification()
+    )
+
   }
 
   static navigationOptions = ({ navigation }) => {
