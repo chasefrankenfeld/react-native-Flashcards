@@ -35,9 +35,21 @@ export default class Decks extends Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillReceiveProps() {
     getDecks().then((decks) => {
-      if (decks !== this.state.decks) {
+      if (decks !== null) {
+        const keys = Object.keys(decks)
+        this.setState(() => ({
+          decks: decks,
+          deckKeys: keys
+        }))
+      }
+    })
+  }
+
+  componentWillUpdate(prevProps, prevState) {
+    getDecks().then((decks) => {
+      if (decks !== null) {
         const keys = Object.keys(decks)
         this.setState(() => ({
           decks: decks,
@@ -78,7 +90,7 @@ export default class Decks extends Component {
           }
 
           { (decks === null) &&
-            <View>
+            <View key="noDecks">
               <Card
                 containerStyle={ styles.card }
                 title="You have no decks"

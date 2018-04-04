@@ -23,7 +23,7 @@ export const getDeck = ( id ) => {
 
 // saveDeckTitle: take in a single title argument and add it to the decks.
 
-export const sumbitDeckTitle = ({ deckTitle }) => {
+export const sumbitDeckTitle = ( deckTitle ) => {
 
     const id = Date.now()
 

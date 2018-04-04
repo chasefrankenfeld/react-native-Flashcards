@@ -67,8 +67,9 @@ const Tabs = TabNavigator({
   swipeEnabled: true,
 });
 
+
 const DeckNavigator = StackNavigator({
-  home: {
+  Home: {
     screen: Tabs,
   },
   Deck: {

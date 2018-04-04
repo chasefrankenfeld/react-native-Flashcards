@@ -15,6 +15,7 @@ import {
 } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons";
 import { sumbitDeckTitle } from "../../utils/api";
+import { getDecks } from "../../utils/api";
 
 
 export default class Decks extends Component {
@@ -34,7 +35,7 @@ export default class Decks extends Component {
 
       const { deckTitle } = this.state
 
-      sumbitDeckTitle({ deckTitle })
+      sumbitDeckTitle( deckTitle )
 
       Keyboard.dismiss()
 
@@ -42,9 +43,9 @@ export default class Decks extends Component {
         deckTitle: ""
       })
 
-      this.props.navigation.navigate("Decks")
-
-
+      this.props.navigation.navigate("Decks", {
+        changeState: "To set the state"
+      })
     }
   }
 

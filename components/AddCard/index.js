@@ -58,9 +58,27 @@ export default class AddCard extends Component {
         answer: ""
       })
 
-      this.props.navigation.dispatch(NavigationActions.back({
-        deckKey: this.props.navigation.state.params.deckKey
-      }))
+      this.props.navigation.goBack()
+      // this.props.navigation.dispatch(NavigationActions.setParams({
+      //   params: {deckKey: this.props.navigation.state.params.deckKey},
+      //   key: "Deck"
+      // }))
+
+      // this.props.navigation.dispatch(NavigationActions.back({
+      //   params: {deckKey: this.props.navigation.state.params.deckKey},
+      // }))
+
+      // this.props.navigation.navigate('Deck', {
+      //   deckKey: this.props.navigation.state.params.deckKey
+      // })
+
+      // this.props.navigation.dispatch(NavigationActions.reset({
+      //   index: 1,
+      //   actions: [
+      //     NavigationActions.navigate({ routeName: 'Home' }),
+      //     NavigationActions.navigate({ routeName: 'Deck' }),
+      //   ],
+      // }))
     }
   }
 
@@ -99,7 +117,7 @@ export default class AddCard extends Component {
               An is required!
             </FormValidationMessage>
             <Button
-              title="Create your deck"
+              title="Add card"
               backgroundColor="#000"
               icon={{name: 'title', type: 'MaterialIcons', buttonStyle: styles.button }}
               onPress={this.handleSumbit }
